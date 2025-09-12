@@ -1,17 +1,7 @@
-#global:
-#  scrape_interval: 5s
-#
-#scrape_configs:
-#  - job_name: "livekit"
-#    static_configs:
-#      - targets: ["host.docker.internal:7999"]
-##      - targets: ["livekit:7999"]
-##      - targets: ["livekit:7881"]
-
 global:
   scrape_interval: 5s
 
 scrape_configs:
   - job_name: "livekit"
     static_configs:
-      - targets: ["localhost:7999"]
+      - targets: ["livekit:9000"]
