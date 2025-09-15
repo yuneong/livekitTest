@@ -1,0 +1,6 @@
+spring:
+  docker:
+    compose:
+      readiness:
+        enabled: false
+      enabled: false
