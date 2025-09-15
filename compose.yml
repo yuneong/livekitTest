@@ -2,13 +2,14 @@ services:
   livekit:
     image: livekit/livekit-server:latest
     container_name: livekit
-    command: --dev --config /etc/livekit/config.yml
+    command: --config /etc/livekit/config.yml
     volumes:
       - ./livekit-config.yml:/etc/livekit/config.yml
     ports:
       - "7880:7880"           # API / Signal
       - "7881:7881"           # WebRTC TCP
       - "7882:7882/udp"       # WebRTC UDP
+      - "7999:7999"           # livekit 자체 metrics
       - "9000:9000"           # metrics-proxy가 노출하는 포트
     restart: unless-stopped
 
