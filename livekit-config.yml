@@ -2,6 +2,8 @@ port: 7880           # API / Signal 포트 (클라이언트가 붙는 HTTP, gRPC
 rtc:
   tcp_port: 7881     # WebRTC TCP 포트
   udp_port: 7882     # WebRTC UDP 포트
+  use_external_ip: false
+
 prometheus:
   port: 7999         # Prometheus metrics 포트
 # port: 7881         # <- 주석 처리 (여기 쓰면 충돌 가능)
@@ -11,3 +13,8 @@ bind_addresses:
 
 keys:
   devkey: this_is_a_very_long_secret_key_for_testing_purposes_12345
+
+webhook:
+  api_key: devkey
+  urls:
+    - http://host.docker.internal:8080/api/v1/livekit/webhook

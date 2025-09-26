@@ -21,7 +21,19 @@ const connectRoom = async () => {
     // 랜덤 아이디로 토큰 발급
     const randomId = "user-" + Math.floor(Math.random() * 100000);
 
-    const res = await fetch(`http://localhost:8080/api/v1/livekit/token?identity=${randomId}`);
+    // const res = await fetch("http://localhost:8080/api/v1/livekit/token", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     roomName: "test-room",
+    //     participantName: randomId,
+    //   }),
+    // });
+
+    const res = await fetch(`http://localhost:8080/api/v1/livekit/token?room=test-room&identity=${randomId}`);
+
     const data = await res.json();
     const token = data.token;
 
@@ -36,7 +48,7 @@ const connectRoom = async () => {
     // 로컬 트랙 생성 & 발행
     const tracks = await room.localParticipant.createTracks();
     tracks.forEach((track) => {
-      room.localParticipant.publishTrack(track);
+      room.localParticipant.publishTrack(track);3
       if (track.kind === "video" && localVideo.value) {
         track.attach(localVideo.value);
       }
