@@ -24,7 +24,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
+#    container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -35,9 +35,31 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+#    container_name: grafana
     ports:
       - "3000:3000"
     depends_on:
       - prometheus
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    command: -config.file=/etc/promtail/promtail.yml
+    volumes:
+      - ./promtail.yml:/etc/promtail/promtail.yml  # Promtail 설정 파일
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro  # Docker 컨테이너 로그에 대한 읽기 전용 액세스
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker 소켓에 대한 액세스 (컨테이너 메타데이터 수집용)
+    depends_on:
+      - loki
+    restart: unless-stopped
+
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    command: -config.file=/etc/loki/loki.yml
+    volumes:
+        - ./loki.yml:/etc/loki/loki.yml
+    ports:
+        - "3100:3100"
     restart: unless-stopped
